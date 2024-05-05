@@ -56,3 +56,7 @@ celery -app=app.worker -- worker --loglevel=debug
 ### Debug
 
 I've included the `launch.json` so you can use the VSCode Debugger to start debugging.
+
+### Credits
+
+@cnicodeme 
