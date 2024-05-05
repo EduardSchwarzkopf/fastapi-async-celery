@@ -1,0 +1,38 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "FastAPI",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["app.main:app", "--reload"],
+      "jinja": true
+    },
+    {
+      "name": "Celery",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "celery",
+      "console": "integratedTerminal",
+      "args": [
+        "--app",
+        "app.worker",
+        "worker",
+        "--loglevel",
+        "DEBUG",
+        "--pool",
+        "solo"
+      ]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Celery and FastAPI",
+      "configurations": ["Celery", "FastAPI"]
+    }
+  ]
+}
