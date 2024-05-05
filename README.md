@@ -59,4 +59,4 @@ I've included the `launch.json` so you can use the VSCode Debugger to start debu
 
 ### Credits
 
-@cnicodeme 
+[@cnicodeme](https://github.com/cnicodeme)
