@@ -4,9 +4,6 @@ import asyncio
 
 
 class AsyncCelery(Celery):
-    # Credits: Cyril N.
-    # https://stackoverflow.com/a/69585025/11699898
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.patch_task()
@@ -26,21 +23,21 @@ class AsyncCelery(Celery):
                     await result
 
             def __call__(self, *args, **kwargs):
-                asyncio.run(self._run(*args, **kwargs))
+                asyncio.get_event_loop().run_until_complete(self._run(*args, **kwargs))
 
         self.Task = ContextTask
 
     def init_app(self, app):
         self.app = app
 
-        conf = {}
-        for key in app.config.keys():
-            if key[0:7] == "CELERY_":
-                conf[key[7:].lower()] = app.config[key]
-
+        conf = {
+            key[7:].lower(): app.config[key]
+            for key in app.config.keys()
+            if key[:7] == self.namespace
+        }
         if (
             "broker_transport_options" not in conf
-            and conf.get("broker_url", "")[0:4] == "sqs:"
+            and conf.get("broker_url", "")[:4] == "sqs:"
         ):
             conf["broker_transport_options"] = {"region": "eu-west-1"}
 
